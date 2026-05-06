@@ -241,6 +241,14 @@ def main() -> int:
     state["last_seen_iso"] = datetime.datetime.utcnow().isoformat() + "Z"
     _save_last_poll(state)
 
+    # Reconcile draft lifecycle (sent/edited/abandoned) — feedback signal for tuning
+    try:
+        import reconcile
+        recon = reconcile.reconcile_all()
+        print(f"reconciled: {recon['by_status']}")
+    except Exception as e:
+        print(f"warn: reconcile failed: {e}", file=sys.stderr)
+
     drafted = sum(1 for r in results if "gmail_draft_id" in r or r.get("dry_run"))
     skipped = sum(1 for r in results if "skipped" in r)
     log_entry = {

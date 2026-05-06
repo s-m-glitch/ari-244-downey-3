@@ -195,6 +195,25 @@ def send_email(to: str, subject: str, body: str) -> str:
     return sent["id"]
 
 
+def draft_exists(draft_id: str) -> bool:
+    """True if a Gmail draft with this ID is still pending (not sent or deleted)."""
+    svc = _service()
+    try:
+        svc.users().drafts().get(userId="me", id=draft_id).execute()
+        return True
+    except HttpError as e:
+        if e.resp.status == 404:
+            return False
+        raise
+
+
+def list_thread_messages(thread_id: str) -> list[dict]:
+    """Return all messages in a thread, parsed."""
+    svc = _service()
+    thread = svc.users().threads().get(userId="me", id=thread_id, format="full").execute()
+    return [parse_message(m) for m in thread.get("messages", [])]
+
+
 # ---------------------------------------------------------------------------
 # Quick CLI for verification
 # ---------------------------------------------------------------------------
