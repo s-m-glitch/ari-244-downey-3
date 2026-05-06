@@ -1,0 +1,103 @@
+{
+  "property": {
+    "address": "244 Downey Street, Unit 3, San Francisco, CA 94117",
+    "unit_type": "1 BR / 1 BA condo",
+    "building": "4-unit building",
+    "hoa_name": "244 Downey Street Homeowners Association",
+    "hoa_recorded": "1993",
+    "hoa_doc_id": "F468922",
+    "parking": "Assigned tandem garage space, P-2 (CC&Rs §III.BB)",
+    "storage": "In parking space",
+    "appliances": "refrigerator, range/oven, dishwasher, microwave"
+  },
+  "owner": {
+    "name": "Shaw McKean",
+    "email": "mckean.shaw@gmail.com",
+    "phone": "+1 (202) 297-2561",
+    "rent_check_address": "Shaw McKean, 163 Belvedere Street, San Francisco, CA 94117"
+  },
+  "tenant": {
+    "name": "Mareika Ydens",
+    "email": "mareika.ydens@gmail.com",
+    "phone": "+1 (505) 366-1038",
+    "first_name": "Mareika",
+    "lease_start": "2024-03-01",
+    "fixed_term_end": "2025-02-29",
+    "month_to_month_since": "2025-03-01",
+    "tenure_started": "2024-03-01",
+    "occupants_other_than_named": [],
+    "support_animal": {
+      "name": "Bones",
+      "species": "dog",
+      "breed": "beagle mix",
+      "age_years": 9,
+      "weight_lbs": 45,
+      "status": "registered support animal, fully approved",
+      "notes": "Settled matter. Do NOT raise CC&R pet-size conflict. Treat as accommodated."
+    },
+    "communication_style": "warm and professional, prompt response patterns, sole occupant, has been a model tenant since 2024-03-01"
+  },
+  "rent": {
+    "current_amount_usd": 3930,
+    "current_effective_date": "2025-10-01",
+    "previous_amount_usd": 3800,
+    "due_day_of_month": 1,
+    "late_fee_rule": "greater of $50 or 5% of rent if not received within 3 calendar days of due date (lease §10)",
+    "next_adjustment_eligible_date": "2026-10-01",
+    "comp_pull_trigger_date": "2026-08-01",
+    "draft_surface_lead_days": 60,
+    "min_legal_lead_days": 30,
+    "ab1482_status": "EXEMPT - single condo, individual owner",
+    "just_cause_status": "EXEMPT",
+    "tenant_facing_framing": "market comps + good-tenant discount; NEVER reference AB 1482, CPI, state caps, or 'what state law allows' in tenant-facing copy"
+  },
+  "deposit": {
+    "amount_usd": 5700,
+    "held_by": "Shaw McKean"
+  },
+  "utilities": {
+    "owner_pays": ["water", "garbage"],
+    "tenant_pays": ["everything else"]
+  },
+  "vendor": {
+    "primary_handyman": {
+      "name": "Gilberto",
+      "contact_pending": true,
+      "expense_threshold_pending": true,
+      "dispatch_rule": "v1: NEVER contact directly. Only dispatch after Shaw approves the draft proposing dispatch. Once approved, coordinate scheduling between Gilberto and tenant, send 24-hr notice of entry, update ticket."
+    }
+  },
+  "operational_rules": {
+    "quiet_hours": "11pm to 7am, per CC&Rs §III.V",
+    "entry_notice": "24 hours written/email notice required (lease §40)",
+    "smoke_co_alarm_clause": "lease §42",
+    "tenant_maintenance_responsibility": "lease §35 (light bulbs, basic upkeep on tenant)",
+    "owner_unit_maintenance_clause": "CC&Rs §III.N - owner responsible for keeping unit interior in clean, sanitary, workable, attractive condition",
+    "subletting_clause": "lease §17 (requires owner consent)",
+    "alterations_clause": "lease §32 (requires owner consent)",
+    "satellite_clause": "lease §39 (requires owner consent)",
+    "payment_method": "Check only, mailed to Shaw McKean, 163 Belvedere Street, San Francisco, CA 94117",
+    "sf_rent_board_phone": "415-252-4602"
+  },
+  "consent_routing": {
+    "owner_only": [
+      "subletting / additional occupants (§17)",
+      "interior alterations (§32)",
+      "satellite/dish (§39)",
+      "guest stays beyond reasonable visit length",
+      "rent changes / fee assessments / lease modifications"
+    ],
+    "owner_AND_HOA_board": [
+      "anything affecting common area",
+      "exterior appearance changes",
+      "structural changes",
+      "additional pets beyond Bones",
+      "exterior modifications visible from common area",
+      "window covering changes (per CC&Rs)"
+    ],
+    "informational_only": [
+      "light bulbs (tenant responsibility per §35)",
+      "general questions answered by lease + CC&Rs"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+# Runtime artifacts — regenerated every pipeline run
+drafts/
+logs/
+
+# Cached OCR working files (re-OCR from source PDF if needed)
+kb/ccrs_raw.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

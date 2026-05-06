@@ -1,0 +1,49 @@
+{
+  "_schema": {
+    "version": 1,
+    "fields": [
+      "month",
+      "year",
+      "expected_usd",
+      "received_on",
+      "received_amount_usd",
+      "late_fee_assessed",
+      "notes"
+    ],
+    "rule": "Shaw confirms receipt by emailing Ari (e.g., 'Got Mareika's check for November'). Ari updates ledger. NEVER autonomously assess late fees, send pay-or-quit, or change payment method."
+  },
+  "reminder_cadence": {
+    "soft_reminder": "28th of month (preceding due date)",
+    "nudge_if_no_receipt_logged": "2nd of month",
+    "escalate_to_shaw": "4th of month"
+  },
+  "ledger": [
+    {
+      "month": 10,
+      "year": 2025,
+      "expected_usd": 3930,
+      "received_on": null,
+      "received_amount_usd": null,
+      "late_fee_assessed": false,
+      "notes": "First month at new rent. Pre-existing payment status unknown - awaiting Shaw confirmation."
+    },
+    {
+      "month": 11,
+      "year": 2025,
+      "expected_usd": 3930,
+      "received_on": null,
+      "received_amount_usd": null,
+      "late_fee_assessed": false,
+      "notes": ""
+    },
+    {
+      "month": 12,
+      "year": 2025,
+      "expected_usd": 3930,
+      "received_on": null,
+      "received_amount_usd": null,
+      "late_fee_assessed": false,
+      "notes": ""
+    }
+  ]
+}

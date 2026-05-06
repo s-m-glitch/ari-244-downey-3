@@ -1,0 +1,34 @@
+{
+  "_schema": {
+    "version": 1,
+    "fields": [
+      "id",
+      "opened_on",
+      "issue_summary",
+      "status",
+      "category",
+      "urgency",
+      "owner_action_needed",
+      "vendor",
+      "photos",
+      "thread_id",
+      "resolved_on",
+      "notes"
+    ],
+    "status_values": [
+      "Open",
+      "Owner reviewing",
+      "Vendor scheduled",
+      "In progress",
+      "Resolved"
+    ],
+    "urgency_values": [
+      "emergency",
+      "urgent",
+      "routine",
+      "cosmetic"
+    ]
+  },
+  "next_id": 1,
+  "tickets": []
+}

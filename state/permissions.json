@@ -1,0 +1,7 @@
+{
+  "_schema": {
+    "version": 1,
+    "purpose": "Anything Shaw has explicitly granted (one-time exceptions, guest stays, vendor access windows, etc.) - all permissions need explicit grant_evidence (Shaw's email or chat confirmation) and an expiry."
+  },
+  "permissions": []
+}

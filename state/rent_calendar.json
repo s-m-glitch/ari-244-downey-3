@@ -1,0 +1,20 @@
+{
+  "last_increase_date": "2025-10-01",
+  "last_increase_amount_usd": 130,
+  "last_increase_pct": 3.42,
+  "current_rent_usd": 3930,
+  "next_eligible_date": "2026-10-01",
+  "comp_pull_trigger_date": "2026-08-01",
+  "comp_pull_triggered": false,
+  "comp_pull_completed_date": null,
+  "draft_scheduled_date": null,
+  "comp_sources": ["Zillow", "Apartments.com", "Zumper", "Craigslist"],
+  "comp_target": "1BR/1BA in 94117 / Cole Valley / Haight-Ashbury",
+  "framing_rules": [
+    "NEVER reference AB 1482, CPI, or 'state law' in tenant-facing copy",
+    "Frame as: 'this is what comparable units rent for; here's where I'm landing for you'",
+    "Default to 60+ days lead time, never less than 30",
+    "Shaw decides the discount between current rent and market - not Ari",
+    "Tone matches Aug 2025 voice example: warm, plain, slightly understated"
+  ]
+}

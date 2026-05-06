@@ -1,0 +1,51 @@
+{
+  "tenant": "Mareika Ydens",
+  "tenure_start": "2024-03-01",
+  "communication_patterns": {
+    "tone": "warm, professional, polite",
+    "typical_response_time": "same-day on weekdays",
+    "preferred_format": "email, attaches photos when reporting issues",
+    "concise": true
+  },
+  "history_highlights": [
+    {
+      "date": "2024-03-01",
+      "event": "Lease signed and tenancy began",
+      "type": "tenancy_milestone"
+    },
+    {
+      "date": "2024-12-08",
+      "event": "Building-wide termite report from 244 residents; Shaw notified Mareika same-day, coordinated investigation",
+      "type": "maintenance_communication"
+    },
+    {
+      "date": "2025-03-02",
+      "event": "Mareika notified Shaw of mail left downstairs",
+      "type": "general_acknowledgment"
+    },
+    {
+      "date": "2025-04-18",
+      "event": "Bedroom blinds drawstring broke (1 of 3); photos provided",
+      "type": "maintenance_request"
+    },
+    {
+      "date": "2025-08-07",
+      "event": "Rent adjustment to $3,930 communicated, effective 2025-10-01",
+      "type": "rent_adjustment"
+    }
+  ],
+  "settled_matters": [
+    "Support animal Bones is fully approved - do not raise CC&R pet-size conflict, do not re-litigate",
+    "Tandem garage parking P-2 + storage in parking space - included in tenancy",
+    "Owner pays water + garbage; tenant pays everything else"
+  ],
+  "open_threads": [],
+  "do_not_say_to_tenant": [
+    "AB 1482",
+    "CPI",
+    "state rent cap",
+    "what state law allows",
+    "your unit is exempt from rent control",
+    "anything that quotes lease section numbers as a debate weapon"
+  ]
+}

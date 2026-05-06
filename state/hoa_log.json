@@ -1,0 +1,20 @@
+{
+  "_schema": {
+    "version": 1,
+    "fields": [
+      "id",
+      "received_on",
+      "from",
+      "subject",
+      "summary",
+      "deadline",
+      "tenant_impact",
+      "tenant_relayable_summary",
+      "shaw_response_required",
+      "status"
+    ],
+    "rule": "Forward relayable summaries to tenant when affected. Draft Shaw's response if reply needed. Track HOA-imposed deadlines. Flag board-level matters (elections, special assessments, rule disputes) without auto-responding."
+  },
+  "next_id": 1,
+  "notices": []
+}
