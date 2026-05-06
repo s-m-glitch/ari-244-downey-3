@@ -38,13 +38,15 @@ ari/
 │   ├── hoa_log.json                — HOA notices received, deadlines, tenant-impact flag
 │   └── tenant_context.json         — Mareika's history, communication patterns, settled matters (Bones is settled)
 ├── scripts/
-│   ├── ari_pipeline.py             — the deterministic v0 pipeline: classify → draft → cover note → state updates
+│   ├── ari_pipeline.py             — the pipeline: classify → draft → cover note → state updates
+│   ├── llm_drafter.py              — Claude-backed draft generation (default)
 │   ├── gmail_client.py             — thin Gmail API wrapper (auth refresh, list/get/draft/send)
 │   ├── auth_setup.py               — one-time OAuth consent flow; saves refresh token
 │   ├── run_poll.py                 — production poll loop (calls pipeline + Gmail API)
 │   └── run_inbox_poll.md           — operational runbook
 ├── docs/
-│   └── gmail_api_setup.md          — Google Cloud setup walkthrough
+│   ├── gmail_api_setup.md          — Google Cloud / Gmail API walkthrough
+│   └── llm_drafting_setup.md       — Anthropic API key setup + cost expectations
 ├── tests/fixtures/                 — 7 test emails covering every §6 category
 └── drafts/                         — generated draft packages (.json) and human-readable .eml.txt files
 └── logs/pipeline.log.jsonl         — append-only run log
@@ -83,7 +85,7 @@ Side effects, verified in state files after the run:
 
 ## v1 → vN
 
-The `ari_pipeline.py` boundary stays the same when classification + draft generation get backed by Claude calls. The system prompt at `prompts/system_prompt.md` is already shaped for that — it specifies the JSON output contract the pipeline expects.
+Drafting is now LLM-backed by default — Claude reads each inbound and writes the reply using `prompts/system_prompt.md` as guidance. Classification stays deterministic (fast and predictable). If the API call fails, the pipeline falls back transparently to the v0 templates. See `docs/llm_drafting_setup.md` for the API key setup.
 
 What's deferred per §12: auto-send for any category, vendor dispatch automation, move-out / turnover, multi-property, dashboard surfaces. Drafts in email are the only owner surface in v1.
 

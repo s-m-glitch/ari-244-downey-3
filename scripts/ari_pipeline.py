@@ -75,6 +75,11 @@ PAYMENT_DELAY_PATTERNS = [
 POLICY_PATTERNS = [
     r"\b(can i|is it ok|am i allowed|allowed to|permission|permit|ok to|alright if|okay if)\b",
     r"\b(install|paint|sublet|guest|stay|window ac|air conditioner|satellite|dish|antenna|second pet|another pet)\b",
+    # Building rules / CC&R-relevant questions tenants ask:
+    r"\b(quiet hours?|noise|loud|music|party|gathering|dinner party|hosting)\b",
+    r"\bwhat (?:are )?the rules?\b",
+    r"\b(rules?|policy|policies)\b.*\b(building|hoa|noise|parking|guest|pet)\b",
+    r"\b(parking|garage|spot|space)\b.*\b(use|borrow|park|cousin|friend|guest|visitor)\b",
 ]
 HOA_BOARD_HINTS = [
     r"\b(hoa|home\s*owners?|board|condo association|special assessment|election notice)\b",
@@ -213,9 +218,15 @@ SIG = "— Ari"
 
 def draft_maintenance_emergency(email: dict, kb: dict) -> dict:
     name = _first_name(email["from"])
+    has_phone = bool(re.search(r"\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b", email.get("body", "")))
+    contact_clause = (
+        "I'll call you at the number you sent in the next few minutes."
+        if has_phone
+        else "I'll get someone in touch with you as soon as possible — please reply with a phone number if you have one handy."
+    )
     body = (
         f"Hi {name} — got it, I'm on this right now. Looping in Shaw immediately and "
-        f"working to get someone over there. I'll call you at the number you sent in the next few minutes. "
+        f"working to get someone over there. {contact_clause} "
         f"In the meantime, if anything escalates (water spreading, electrical near the leak, ceiling sagging) "
         f"please shut off the unit's water at the main valve if you can safely reach it, and step out if you feel unsafe.\n\n"
         f"{SIG}"
@@ -247,8 +258,10 @@ def draft_maintenance_urgent(email: dict, kb: dict) -> dict:
 def draft_maintenance_routine(email: dict, kb: dict) -> dict:
     """Calibrated to the broken-blinds voice anchor."""
     name = _first_name(email["from"])
+    has_photos = any(a.get("mime_type", "").startswith("image/") for a in email.get("attachments", []))
+    photo_clause = " and for the photos" if has_photos else ""
     body = (
-        f"Hi {name} — thanks for flagging this and for the photos. "
+        f"Hi {name} — thanks for flagging this{photo_clause}. "
         f"Looks like a clean failure that should be a straightforward fix. "
         f"I'll get it lined up and circle back with a timeline. Let me know if anything changes in the meantime.\n\n"
         f"{SIG}"
@@ -579,7 +592,11 @@ DRAFT_DISPATCH = {
 }
 
 
-def process_email(email: dict) -> dict:
+def process_email(email: dict, *, force_template: bool = False) -> dict:
+    """Run the pipeline. By default uses LLM-backed drafting with template fallback.
+
+    Set force_template=True to bypass the LLM (useful for offline testing).
+    """
     kb = _load_json(KB_DIR / "property.json")
 
     classif = classify(email)
@@ -599,9 +616,18 @@ def process_email(email: dict) -> dict:
             "send_only_after": "shaw_approval",
         }
     else:
-        key = (classif["category"], classif["subcategory"])
-        gen = DRAFT_DISPATCH.get(key) or DRAFT_DISPATCH[("escalation_only", "unclassified")]
-        draft = gen(email, kb)
+        # Try LLM drafting first, fall back to template on failure
+        draft = None
+        if not force_template:
+            try:
+                from llm_drafter import draft_with_claude
+                draft = draft_with_claude(email, classif)
+            except Exception as e:
+                print(f"warn: LLM draft failed, using template: {e}", file=sys.stderr)
+        if draft is None:
+            key = (classif["category"], classif["subcategory"])
+            gen = DRAFT_DISPATCH.get(key) or DRAFT_DISPATCH[("escalation_only", "unclassified")]
+            draft = gen(email, kb)
 
     cover = cover_note(email, classif, kb)
     updates = state_updates(email, classif)

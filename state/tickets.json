@@ -29,7 +29,7 @@
       "cosmetic"
     ]
   },
-  "next_id": 3,
+  "next_id": 4,
   "tickets": [
     {
       "id": 1,
@@ -56,6 +56,24 @@
       "vendor": null,
       "photos": [],
       "thread_id": "19dfb4e486dada12",
+      "resolved_on": null,
+      "notes": "Maintenance signal without emergency/urgency markers. Routine triage per \u00a76.1."
+    },
+    {
+      "id": 3,
+      "opened_on": "2025-04-18",
+      "issue_summary": "Bedroom blinds broke",
+      "status": "Open",
+      "category": "routine",
+      "urgency": "routine",
+      "owner_action_needed": true,
+      "vendor": null,
+      "photos": [
+        "blind_damage_1.jpg",
+        "blind_damage_2.jpg",
+        "blind_damage_3.jpg"
+      ],
+      "thread_id": "fixture-blinds-2025-04-18",
       "resolved_on": null,
       "notes": "Maintenance signal without emergency/urgency markers. Routine triage per \u00a76.1."
     }
