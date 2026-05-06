@@ -102,11 +102,47 @@ def _matches(patterns: list[str], text: str) -> bool:
     return any(re.search(p, text, flags=re.I) for p in patterns)
 
 
+def _hoa_member_emails() -> set[str]:
+    """Load the set of HOA member email addresses from the KB."""
+    try:
+        data = json.loads((KB_DIR / "hoa_board.json").read_text())
+        return {m["email"].lower() for m in data.get("members", [])}
+    except FileNotFoundError:
+        return set()
+
+
 def classify(email: dict) -> dict:
     """Return {category, subcategory, urgency, rationale}.
 
     Decision order matters — escalation > emergency > urgent > category-specific."""
     text = f"{email.get('subject', '')}\n{email.get('body', '')}"
+    sender_lc = email.get("from", "").lower()
+
+    # HOA board member email addresses are the most reliable HOA signal.
+    # Recognize these BEFORE any other category check.
+    hoa_emails = _hoa_member_emails()
+    sender_is_hoa = any(e in sender_lc for e in hoa_emails)
+    if sender_is_hoa:
+        # Sub-classify: is this informational, needs-a-reply, or a board decision?
+        is_board_decision = bool(re.search(
+            r"\b(special assessment|assessment|dues increase|raise (?:the )?dues|"
+            r"vote|voting|proposal|approve|approval|election|budget|insurance renewal|"
+            r"meeting agenda|board meeting|next meeting)\b",
+            text, flags=re.I,
+        ))
+        if is_board_decision:
+            return {
+                "category": "hoa_correspondence",
+                "subcategory": "board_decision",
+                "urgency": "routine",
+                "rationale": "From HOA board member, content includes board-decision keywords (assessment / vote / dues / budget / meeting agenda). Per §6.5, flag without drafting a substantive reply; surface for Shaw's review.",
+            }
+        return {
+            "category": "hoa_correspondence",
+            "subcategory": "board_correspondence",
+            "urgency": "routine",
+            "rationale": "From HOA board member; routine board-to-board correspondence. Draft a peer-voice reply for Shaw's review.",
+        }
 
     # Highest priority: anything legal/move-out → escalation_only (§6.7)
     if _matches(LEGAL_THREAT_PATTERNS, text):

@@ -49,6 +49,10 @@ def _kb_blob() -> str:
         "open_tickets": _open_tickets(),
         "permissions": json.loads((STATE_DIR / "permissions.json").read_text())["permissions"],
     }
+    # HOA board context, when present
+    hoa_path = KB_DIR / "hoa_board.json"
+    if hoa_path.exists():
+        blob["hoa_board"] = json.loads(hoa_path.read_text())
     return json.dumps(blob, indent=2, default=str)
 
 
@@ -59,7 +63,21 @@ def _open_tickets() -> list:
 
 def _build_user_message(email: dict, classification: dict) -> str:
     """The single user-turn prompt: classification + inbound email + KB."""
-    return f"""You're drafting Ari's reply to a tenant email.
+    is_hoa = classification.get("category") == "hoa_correspondence"
+
+    if is_hoa:
+        voice_block = """YOUR TASK (HOA correspondence — peer voice, NOT Ari):
+This email is from an HOA board member. The reply should be drafted in **Shaw's voice** as one of the four owners — peer-to-peer, casual but informed. **Sign as "Shaw"** on a new line, NOT "— Ari." Do NOT introduce yourself as a property manager. Do NOT mention Ari at all.
+
+Match the register of the sender — if they're chatty, be chatty; if they're terse, be terse. Short replies preferred. Defer tactical opinions when Shaw doesn't obviously have one.
+
+For `board_correspondence` (routine coordination): write a normal peer reply.
+For `board_decision` (assessments, dues, votes, budgets): draft ONLY a holding response like "Thanks — let me review and circle back before the meeting." NEVER commit Shaw to a number, vote, or position. The actual decision is Shaw's call, not yours."""
+    else:
+        voice_block = """YOUR TASK:
+Write the tenant-facing reply body following the persona, voice, and §6/§8 guidance in the system prompt. Match the §8 voice anchors closely — warm, plain, slightly understated. Sign as "— Ari" on a new line. Cite policy conversationally if needed; never quote section numbers adversarially."""
+
+    return f"""You're drafting a reply on behalf of the 244 Downey Street property.
 
 CLASSIFICATION (already determined by deterministic rules):
 {json.dumps(classification, indent=2)}
@@ -78,13 +96,12 @@ Body:
 KNOWLEDGE BASE (current ground truth):
 {_kb_blob()}
 
-YOUR TASK:
-Write the tenant-facing reply body following the persona, voice, and §6/§8 guidance in the system prompt. Match the §8 voice anchors closely — warm, plain, slightly understated. Sign as "— Ari" on a new line. Cite policy conversationally if needed; never quote section numbers adversarially.
+{voice_block}
 
 Return a JSON object EXACTLY in this shape, with no commentary outside the JSON:
 {{
   "subject": "Re: <original subject>",
-  "body": "<the reply, ending with — Ari>"
+  "body": "<the reply>"
 }}
 
 Hard rules (never violate):
@@ -92,8 +109,10 @@ Hard rules (never violate):
 - Never mention attachments/photos that don't actually exist (check the Attachments list above).
 - Never re-raise the support-animal/Bones issue; it is settled.
 - Never commit to specific timelines or expenses without Shaw's approval; use "I'll get this lined up" / "I'll circle back with a timeline" framing.
+- Never commit Shaw to an HOA vote, assessment number, or position. Only Shaw decides those.
+- For HOA emails: NEVER sign as "Ari" or describe yourself as a property manager.
 - Never quote lease section numbers as adversarial leverage.
-- For escalation_only category: return body that says you didn't draft a tenant-facing reply per §6.7.
+- For escalation_only category: return body that says you didn't draft a reply per §6.7.
 """
 
 

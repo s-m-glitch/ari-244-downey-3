@@ -1,0 +1,32 @@
+{
+  "_note": "244 Downey Street HOA — 4-unit building, Shaw is one of four owners. The other three owners are the rest of the HOA. Update roles as they're confirmed.",
+  "members": [
+    {
+      "name": "Andreas Tagger",
+      "email": "atagger1@gmail.com",
+      "role": "owner / board member",
+      "notes": "Per Dec 2024 termite email: Andreas was coordinating with the tenant on building-wide pest investigation."
+    },
+    {
+      "name": "Sally Buchman",
+      "email": "sallybsfpaw@yahoo.com",
+      "role": "treasurer (inferred from May 2026 budget email)",
+      "notes": "Sends budget projections, insurance assessment math, dues proposals."
+    },
+    {
+      "name": "Khaoula Begdouri",
+      "email": "khaoula.begdouri@gmail.com",
+      "role": "owner / board member",
+      "notes": ""
+    }
+  ],
+  "current_dues_per_unit_per_month": null,
+  "known_upcoming_decisions": [
+    "Insurance renewal Oct 2026 — special assessment per owner",
+    "Insurance again Apr 2027 — special assessment per owner",
+    "Possible monthly dues increase ($25 or $50/mo) effective June 2026",
+    "Curb painting (~$750)",
+    "Tree trim (annual, overdue)"
+  ],
+  "shaw_voice_with_hoa": "Peer-to-peer with other owners. Casual but informed. Signs as Shaw, not Ari. Short replies preferred. Defers tactical opinions when he doesn't have a strong view; weighs in clearly when he does. Doesn't use property-manager voice with HOA members."
+}

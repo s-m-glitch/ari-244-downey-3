@@ -15,6 +15,31 @@
     ],
     "rule": "Forward relayable summaries to tenant when affected. Draft Shaw's response if reply needed. Track HOA-imposed deadlines. Flag board-level matters (elections, special assessments, rule disputes) without auto-responding."
   },
-  "next_id": 1,
-  "notices": []
+  "next_id": 3,
+  "notices": [
+    {
+      "id": 1,
+      "received_on": "Wed, 6 May",
+      "from": "Shaw McKean <mckean.shaw@gmail.com>",
+      "subject": "Fwd: HOA projections 2026-2027",
+      "summary": "Attached are the projections for the HOA in advance of our meeting\r\non Friday.\r\n\r\n*Yearly bills:*\r\nWater: $3720\r\nPG & E: $2100\r\nRecology: $1640 (likely to go up more)\r\nBofA fees: $192\r\nInsurance: $12,366 (likely to go up more)\r\n\r\n*Current b",
+      "deadline": null,
+      "tenant_impact": true,
+      "tenant_relayable_summary": true,
+      "shaw_response_required": false,
+      "status": "logged"
+    },
+    {
+      "id": 2,
+      "received_on": "2026-05-05",
+      "from": "Sally Buchman <sallybsfpaw@yahoo.com>",
+      "subject": "HOA budget projections \u2014 Friday meeting",
+      "summary": "Attached are the projections for the HOA in advance of our meeting on Friday.\n\nYearly bills:\nWater: $3720\nPG & E: $2100\nRecology: $1640 (likely to go up more)\nBofA fees: $192\nInsurance: $12,366 (likely to go up more)\nCurrent balance: $1754.",
+      "deadline": null,
+      "tenant_impact": true,
+      "tenant_relayable_summary": true,
+      "shaw_response_required": false,
+      "status": "logged"
+    }
+  ]
 }
