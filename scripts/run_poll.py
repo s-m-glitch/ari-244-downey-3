@@ -71,7 +71,7 @@ SYSTEM_SENDER_PATTERNS = [
 def _load_last_poll() -> dict:
     if LAST_POLL_PATH.exists():
         return json.loads(LAST_POLL_PATH.read_text())
-    return {"last_seen_iso": (datetime.datetime.utcnow() - datetime.timedelta(hours=1)).isoformat() + "Z"}
+    return {"last_seen_iso": (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=1)).isoformat()}
 
 
 def _save_last_poll(state: dict) -> None:
@@ -198,7 +198,7 @@ def main() -> int:
     args = parser.parse_args()
 
     state = _load_last_poll()
-    started_at = datetime.datetime.utcnow().isoformat() + "Z"
+    started_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
     try:
         threads = gmail_client.list_new_threads(args.query)
@@ -232,13 +232,13 @@ def main() -> int:
                 gmail_client.send_email(
                     OWNER_EMAIL,
                     f"[URGENT] Ari pipeline error on thread {t.get('id')}",
-                    f"Failed at {datetime.datetime.utcnow().isoformat()}Z:\n\n{err}",
+                    f"Failed at {datetime.datetime.now(datetime.timezone.utc).isoformat()}:\n\n{err}",
                 )
             except Exception:
                 pass
             print(err, file=sys.stderr)
 
-    state["last_seen_iso"] = datetime.datetime.utcnow().isoformat() + "Z"
+    state["last_seen_iso"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     _save_last_poll(state)
 
     # Reconcile draft lifecycle (sent/edited/abandoned) — feedback signal for tuning
