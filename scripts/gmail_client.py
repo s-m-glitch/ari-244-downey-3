@@ -16,9 +16,11 @@ Both files live under ari/secrets/ which is gitignored.
 
 from __future__ import annotations
 import base64
+import html
 import json
 import os
 import pathlib
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Any
 
@@ -169,27 +171,48 @@ def _list_attachments(payload: dict) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
-def create_draft(thread_id: str, to: str, subject: str, body: str, in_reply_to: str | None = None) -> str:
-    """Create a Gmail draft on the given thread. Returns draft id. NEVER sends."""
-    svc = _service()
-    msg = MIMEText(body)
+def _build_message(to: str, subject: str, body: str, in_reply_to: str | None = None,
+                   plain_only: bool = False) -> MIMEMultipart | MIMEText:
+    """Build a multipart message with plain + HTML versions, so Gmail wraps it naturally.
+
+    plain_only=True for cover notes to Shaw (we want the monospace structure preserved).
+    """
+    if plain_only:
+        msg = MIMEText(body, "plain")
+    else:
+        msg = MIMEMultipart("alternative")
+        msg.attach(MIMEText(body, "plain"))
+        # HTML version: escape, then convert paragraph breaks to <p>, single linebreaks to <br>
+        html_body = html.escape(body)
+        paragraphs = html_body.split("\n\n")
+        html_body = "".join(f"<p>{p.replace(chr(10), '<br>')}</p>" for p in paragraphs if p.strip())
+        msg.attach(MIMEText(html_body, "html"))
     msg["To"] = to
     msg["Subject"] = subject
     if in_reply_to:
         msg["In-Reply-To"] = in_reply_to
         msg["References"] = in_reply_to
+    return msg
+
+
+def create_draft(thread_id: str, to: str, subject: str, body: str, in_reply_to: str | None = None) -> str:
+    """Create a Gmail draft on the given thread. Returns draft id. NEVER sends."""
+    svc = _service()
+    msg = _build_message(to, subject, body, in_reply_to=in_reply_to)
     raw = base64.urlsafe_b64encode(msg.as_bytes()).decode("utf-8")
     body_arg: dict[str, Any] = {"message": {"raw": raw, "threadId": thread_id}}
     draft = svc.users().drafts().create(userId="me", body=body_arg).execute()
     return draft["id"]
 
 
-def send_email(to: str, subject: str, body: str) -> str:
-    """Send a fresh email (used for cover notes to Shaw). Returns message id."""
+def send_email(to: str, subject: str, body: str, plain_only: bool = True) -> str:
+    """Send a fresh email (used for cover notes to Shaw). Returns message id.
+
+    Cover notes are plain-only by default — they have a monospace structure
+    (separators, indented bullets) that's worth preserving as-is.
+    """
     svc = _service()
-    msg = MIMEText(body)
-    msg["To"] = to
-    msg["Subject"] = subject
+    msg = _build_message(to, subject, body, plain_only=plain_only)
     raw = base64.urlsafe_b64encode(msg.as_bytes()).decode("utf-8")
     sent = svc.users().messages().send(userId="me", body={"raw": raw}).execute()
     return sent["id"]
