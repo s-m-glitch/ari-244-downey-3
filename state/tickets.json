@@ -29,7 +29,7 @@
       "cosmetic"
     ]
   },
-  "next_id": 4,
+  "next_id": 5,
   "tickets": [
     {
       "id": 1,
@@ -74,6 +74,20 @@
         "blind_damage_3.jpg"
       ],
       "thread_id": "fixture-blinds-2025-04-18",
+      "resolved_on": null,
+      "notes": "Maintenance signal without emergency/urgency markers. Routine triage per \u00a76.1."
+    },
+    {
+      "id": 4,
+      "opened_on": "Wed, 6 May",
+      "issue_summary": "leaky faucet",
+      "status": "Open",
+      "category": "routine",
+      "urgency": "routine",
+      "owner_action_needed": true,
+      "vendor": null,
+      "photos": [],
+      "thread_id": "19dff2c88a964baf",
       "resolved_on": null,
       "notes": "Maintenance signal without emergency/urgency markers. Routine triage per \u00a76.1."
     }

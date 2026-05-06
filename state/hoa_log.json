@@ -15,7 +15,7 @@
     ],
     "rule": "Forward relayable summaries to tenant when affected. Draft Shaw's response if reply needed. Track HOA-imposed deadlines. Flag board-level matters (elections, special assessments, rule disputes) without auto-responding."
   },
-  "next_id": 4,
+  "next_id": 6,
   "notices": [
     {
       "id": 1,
@@ -47,6 +47,30 @@
       "from": "Shaw McKean <mckean.shaw@gmail.com>",
       "subject": "Fwd: HOA projections 2026-2027",
       "summary": "---------- Forwarded message ---------\r\nFrom: Andreas Tagger <atagger1@gmail.com>\r\nDate: Mon, May 4, 2026 at 5:14\u202fPM\r\nSubject: HOA projections 2026-2027\r\nTo: Shaw McKean <mckean.shaw@gmail.com>, Sally Buchman <\r\nsallybsfpaw@yahoo.com>, Khao",
+      "deadline": null,
+      "tenant_impact": true,
+      "tenant_relayable_summary": true,
+      "shaw_response_required": false,
+      "status": "logged"
+    },
+    {
+      "id": 4,
+      "received_on": "Wed, 6 May",
+      "from": "Shaw McKean <mckean.shaw@gmail.com>",
+      "subject": "HOA Notice",
+      "summary": "Hi all,\r\n\r\nThere will be a cleaner in the building tomorrow shampooing the carpet.\r\nThey should be there from 10-2 - sorry for any inconvenience. Please let\r\nyour tenants know if needed.\r\n\r\n- Andreas\r\n",
+      "deadline": null,
+      "tenant_impact": true,
+      "tenant_relayable_summary": true,
+      "shaw_response_required": false,
+      "status": "logged"
+    },
+    {
+      "id": 5,
+      "received_on": "Wed, 6 May",
+      "from": "Shaw McKean <mckean.shaw@gmail.com>",
+      "subject": "Re: HOA projections 2026-2027",
+      "summary": "Andreas,\r\n\r\nThanks so much for sending through. This is super helpful to see - look\r\nforward to discussing on Friday.\r\n\r\nSo far for the agenda, I have:\r\n\r\n1) HOA dues potential increase\r\n2) Tree trimming\r\n3) Curb painting\r\n4) Rug shampooing",
       "deadline": null,
       "tenant_impact": true,
       "tenant_relayable_summary": true,

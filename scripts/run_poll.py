@@ -24,6 +24,7 @@ import argparse
 import datetime
 import json
 import pathlib
+import re
 import subprocess
 import sys
 import traceback
@@ -123,11 +124,25 @@ def process_thread(thread_summary: dict, dry_run: bool = False) -> dict:
     email = gmail_client.parse_message(msg)
     sender_lc = email["from"].lower()
 
-    # Break feedback loops: skip if latest message is from us or from Shaw.
+    # Break feedback loops: skip if latest message is from us.
     for skip in SKIP_SENDERS:
         if skip in sender_lc:
             _mark_thread_read(thread_summary["id"])
             return {"thread_id": email["thread_id"], "skipped": f"from_{skip}"}
+
+    # If Shaw is the sender, skip — UNLESS 244downeyapt3@ is the only recipient,
+    # which means Shaw is using the inbox to send Ari instructions (e.g.,
+    # "got Mareika's check for May"). Otherwise, this is just record-keeping
+    # CC and Ari shouldn't reply.
+    if "mckean.shaw@gmail.com" in sender_lc:
+        recipients = (email.get("to", "") + " " + email.get("cc", "")).lower()
+        # Strip out 244downeyapt3@ mentions; if anything else remains, Shaw is talking to others
+        non_self = recipients.replace(TENANT_INBOX.lower(), "").strip()
+        non_self = re.sub(r"[<>,;\s]+", " ", non_self).strip()
+        if non_self:  # there's at least one other recipient
+            _mark_thread_read(thread_summary["id"])
+            return {"thread_id": email["thread_id"], "skipped": "shaw_outbound_to_others"}
+        # else: Shaw is talking only to Ari → fall through and process
 
     # Skip system / automated mail (Google security alerts, calendar invites,
     # mailer-daemon bounces, etc). They're not tenant correspondence and

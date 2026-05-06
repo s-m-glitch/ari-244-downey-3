@@ -128,6 +128,7 @@ def parse_message(msg: dict) -> dict:
         "message_id": msg["id"],
         "from": headers.get("from", ""),
         "to": headers.get("to", ""),
+        "cc": headers.get("cc", ""),
         "date": headers.get("date", ""),
         "subject": headers.get("subject", ""),
         "body": body,
