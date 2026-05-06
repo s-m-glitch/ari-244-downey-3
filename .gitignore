@@ -1,3 +1,6 @@
+# Secrets — NEVER commit
+secrets/
+
 # Runtime artifacts — regenerated every pipeline run
 drafts/
 logs/

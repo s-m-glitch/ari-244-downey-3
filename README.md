@@ -10,7 +10,14 @@ Drop an inbound email JSON into the pipeline, get back: a classification, a draf
 python3 scripts/ari_pipeline.py tests/fixtures/email_blinds.json
 ```
 
-The poll loop that wraps this is wired as a scheduled task (`ari-inbox-poll`, every 30 min). Once `244downeyapt3@gmail.com` is connected to the Gmail MCP, the schedule pulls new threads, runs the pipeline, creates Gmail drafts on the original thread, and emails Shaw a cover note for review.
+For live operation against `244downeyapt3@gmail.com`, the production loop is `scripts/run_poll.py`, which talks directly to the Gmail API. One-time setup (download OAuth credentials from Google Cloud, run `auth_setup.py`) is documented in [`docs/gmail_api_setup.md`](docs/gmail_api_setup.md). After that:
+
+```
+python3 scripts/run_poll.py --dry-run    # see what it'd do
+python3 scripts/run_poll.py              # go live
+```
+
+Wire that to cron / launchd / GitHub Actions / Cowork's scheduler — your call.
 
 ## Layout
 
@@ -32,7 +39,12 @@ ari/
 │   └── tenant_context.json         — Mareika's history, communication patterns, settled matters (Bones is settled)
 ├── scripts/
 │   ├── ari_pipeline.py             — the deterministic v0 pipeline: classify → draft → cover note → state updates
-│   └── run_inbox_poll.md           — runbook the scheduled task follows each cycle
+│   ├── gmail_client.py             — thin Gmail API wrapper (auth refresh, list/get/draft/send)
+│   ├── auth_setup.py               — one-time OAuth consent flow; saves refresh token
+│   ├── run_poll.py                 — production poll loop (calls pipeline + Gmail API)
+│   └── run_inbox_poll.md           — operational runbook
+├── docs/
+│   └── gmail_api_setup.md          — Google Cloud setup walkthrough
 ├── tests/fixtures/                 — 7 test emails covering every §6 category
 └── drafts/                         — generated draft packages (.json) and human-readable .eml.txt files
 └── logs/pipeline.log.jsonl         — append-only run log
@@ -79,7 +91,7 @@ What's deferred per §12: auto-send for any category, vendor dispatch automation
 
 - Gilberto's contact info + standing expense pre-approval threshold.
 - Confirmation that the HOA head and other 3 tenants have been notified of the new inbox.
-- Connect `244downeyapt3@gmail.com` to the Gmail MCP so the scheduled task can poll it.
+- Run the one-time Gmail API setup (`docs/gmail_api_setup.md`) so `run_poll.py` can hit `244downeyapt3@gmail.com` directly.
 
 ## Running it
 

@@ -29,6 +29,35 @@
       "cosmetic"
     ]
   },
-  "next_id": 1,
-  "tickets": []
+  "next_id": 3,
+  "tickets": [
+    {
+      "id": 1,
+      "opened_on": "Tue, 5 May",
+      "issue_summary": "faucet drip",
+      "status": "Open",
+      "category": "routine",
+      "urgency": "routine",
+      "owner_action_needed": true,
+      "vendor": null,
+      "photos": [],
+      "thread_id": "19dfb506eb6165f7",
+      "resolved_on": null,
+      "notes": "Maintenance signal without emergency/urgency markers. Routine triage per \u00a76.1."
+    },
+    {
+      "id": 2,
+      "opened_on": "Tue, 5 May",
+      "issue_summary": "heyyyy - kitchen faucet leak",
+      "status": "Open",
+      "category": "routine",
+      "urgency": "routine",
+      "owner_action_needed": true,
+      "vendor": null,
+      "photos": [],
+      "thread_id": "19dfb4e486dada12",
+      "resolved_on": null,
+      "notes": "Maintenance signal without emergency/urgency markers. Routine triage per \u00a76.1."
+    }
+  ]
 }
